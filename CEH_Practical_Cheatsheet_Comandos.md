@@ -1,7 +1,5 @@
 # CEH Practical – Cheat Sheet de Comandos por Módulo
 
-> Extraído directamente de los labs subidos (Module02–Module20). Reemplaza `[Target IP Address]` / `[IP]` por la IP real que te den en el examen. Máquinas típicas del entorno: Parrot Security (atacante), Windows 11, Windows Server 2022/2019.
-
 ---
 
 ## Módulo 02 – Footprinting & Reconnaissance
