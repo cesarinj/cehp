@@ -1,5 +1,4 @@
-# CEH Practical – Procedimientos por tipo de pregunta
-
+# CEH Practical – RESUMEN
 ---
 
 ### 1) Identificar versión del producto del Domain Controller (escaneo extenso de red)
