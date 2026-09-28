@@ -162,4 +162,3 @@ y desde su consola interactiva usar el comando de listado/descarga de archivos q
 
 ---
 
-**Nota general:** en el Practical estas preguntas casi siempre son un solo comando + leer el output con atención (el dato pedido suele estar ahí, no requiere pasos extra). Prioriza `nmap -A` / `-sV` / `--script vuln` como primer movimiento en la mayoría de preguntas de reconocimiento.
