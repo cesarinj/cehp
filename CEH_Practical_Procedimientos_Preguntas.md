@@ -163,14 +163,14 @@ y desde su consola interactiva usar el comando de listado/descarga de archivos q
 
 Aquí el procedimiento para cada uno:
 
-1) Hash SHA224 de ejecutable ELF64 "Ghostware"
+# 1) Hash SHA224 de ejecutable ELF64 "angel"
 
-file Ghostware              # confirmar que es ELF 64-bit
-sha224sum Ghostware
+file angel             # confirmar que es ELF 64-bit
+sha224sum angel
 
 Toma los últimos 4 caracteres del hash impreso.
 
-2) RDP + descifrar forger.cfe + SHA1 de imagen
+# 2) RDP + descifrar forger.cfe + SHA1 de imagen
 
 Descubrir hosts con RDP (puerto 3389):
 nmap -p 3389 --open 10.10.55.0/24
@@ -184,7 +184,7 @@ sha1sum imagen_descifrada.<ext>
 
 Toma los últimos 6 caracteres (formato NNaaNN).
 
-3) Esteganografía en .bmp de dispositivo móvil
+# 3) Esteganografía en .bmp de dispositivo móvil
 
 Accede al dispositivo (vía ADB si hay debug habilitado, o vía el RAT ya desplegado si aplica):
 adb connect [IP]:5555
@@ -200,7 +200,7 @@ exiftool imagen.bmp
 
 El texto extraído es el secret code (formato AaaaaANa).
 
-4) Base64 en archivos subidos por DVWA
+# 4) Base64 en archivos subidos por DVWA
 
 Login en DVWA (admin/password) y revisa los archivos subidos en:
 C:\wamp64\www\DVWA\SecureWeb\prod\
@@ -213,7 +213,7 @@ echo "<cadena_base64>" | base64 -d
 
 El que produzca texto legible es el mensaje original (formato AaaN*aNaN).
 
-5) CVE de menor severidad tras escaneo de vulnerabilidades
+# 5) CVE de menor severidad tras escaneo de vulnerabilidades
 
 Escaneo con OpenVAS (o Nessus si está disponible en el lab):
 docker run -d -p 443:443 --name openvas mikesplain/openvas
@@ -222,7 +222,7 @@ En el reporte, ordena resultados por severidad ascendente y toma el CVE con el s
 Alternativa rápida con nmap:
 nmap --script vuln 192.168.44.32
 
-6) pixelpioneer.txt — extracción con "password" como clave
+# 6) pixelpioneer.txt — extracción con "password" como clave
 El archivo probablemente es un contenedor esteganográfico o cifrado (no texto plano). Como sabes que la clave es literalmente password:
 
 steghide extract -sf pixelpioneer.txt -p password
@@ -233,7 +233,7 @@ openssl enc -d -aes-256-cbc -in pixelpioneer.txt -out output.txt -k password
 
 El contenido resultante es la credencial de 9 caracteres alfanuméricos (formato ANaa*aANaNa — ojo, el formato dado tiene más de 9, revisa si piden el resultado completo del archivo, no solo la credencial).
 
-7) Static malware analysis — Image Version de Wildfire.exe
+# 7) Static malware analysis — Image Version de Wildfire.exe
 Usa PEStudio o Detect It Easy (DIE), herramientas típicas de análisis estático en los labs de CEH:
 
 Abre Wildfire.exe en PEStudio.
@@ -247,7 +247,7 @@ print(pe.OPTIONAL_HEADER.MajorImageVersion, pe.OPTIONAL_HEADER.MinorImageVersion
 
 Formato N*N sugiere algo como 6.3.
 
-8) Contar archivos en carpeta "Honeywell" vía RAT
+# 8) Contar archivos en carpeta "Honeywell" vía RAT
 
 Conéctate a la sesión activa del RAT ya desplegado en la máquina objetivo (según el lab, suele ser Metasploit/Meterpreter o njRAT/AndroRAT):
 msfconsole
