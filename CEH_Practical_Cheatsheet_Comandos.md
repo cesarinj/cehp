@@ -450,6 +450,9 @@ sgpt --shell "Perform webserver footprinting on target IP ..."
 sgpt --shell "Mirror the target website ... with httrack"
 ```
 
+wpscan  validacion de contraseña 
+wpscan --url http://192.168.149.138/wp-login.php -P contraseñas.txt -U Elliot
+
 ---
 
 ## Módulo 14 – Hacking Web Applications
@@ -538,6 +541,35 @@ sgpt --shell "Calculate MD5 hash of text '<texto>'"
 sgpt --chat hash --shell "Calculate CRC32 hash of the file passwords.txt"
 ```
 Resto del módulo usa herramientas GUI (HashCalc, CrypTool, MD5 Calculator) para hashing/cifrado/esteganografía.
+openstego
+extradata
+input
+output
+Password
+
+snow -C -p “magic” secreto2oculto.txt 
+
+veracript 
+Montar el volumen 
+acceder al archivo
+extraer respuesta 
+
+
+cryptoforce 
+abrir cryptoforce
+ingresar contraseña
+extraer la informacion requerida 
+
+cryptol 
+identifica ruta de archivo .hex
+abrir cryptol
+aplicar la llave de descifrado
+obtener la informacion
+
+cryptool  
+Encrypt/Decrypt   simmetric(modern)  DES(CBS)
+
+
 
 ---
 
