@@ -540,6 +540,9 @@ Import-Module AADInternals
 sgpt --shell "Calculate MD5 hash of text '<texto>'"
 sgpt --chat hash --shell "Calculate CRC32 hash of the file passwords.txt"
 ```
+
+https://gchq.github.io/CyberChef
+
 Resto del módulo usa herramientas GUI (HashCalc, CrypTool, MD5 Calculator) para hashing/cifrado/esteganografía.
 openstego
 extradata
