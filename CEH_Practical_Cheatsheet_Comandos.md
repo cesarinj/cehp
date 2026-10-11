@@ -327,6 +327,8 @@ Accept
 
 ## PowerView
 ```
+
+cd /root/ADtools
 PowerView.ps1
 python3 -m http.server
 http://10.10.1.13:8000/PowerView.ps1
