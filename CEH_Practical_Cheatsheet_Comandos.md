@@ -95,7 +95,7 @@ nmap -O [IP]                              # detección de OS
 nmap --script smb-os-discovery.nse [IP]   # OS vía SMB
 ```
 
-**Evasión de IDS/Firewall**
+** Evasión de IDS/Firewall  **
 ```
 nmap -f [IP]              # fragmentación de paquetes
 nmap -g 80 [IP]           # manipulación de puerto origen
