@@ -444,6 +444,13 @@ service apache2 start
 
 ## Módulo 13 – Hacking Web Servers
 ```
+nmap -sV --script=http-enum [target website].
+nmap --script hostmap-bfk -script-args hostmap-bfk.prefix=hostmap- www.goodshopping.com
+nmap --script http-trace -d www.goodshopping.com
+nmap -p80 --script http-waf-detect www.goodshopping.com.
+
+
+
 nmap -sV -sC [IP]
 searchsploit -t Apache RCE
 
